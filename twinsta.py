@@ -1,3 +1,5 @@
+# Streaming a tweet using the twitter handle.
+
 from twython import TwythonStreamer
 from dkey import INSTA_API_KEY, INSTA_AUTH_TOKEN, TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, TWITTER_OAUTH_TOKEN, TWITTER_OAUTH_SECRET
 
@@ -6,7 +8,7 @@ class MyStreamer(TwythonStreamer):
         if 'text' in data:
             self.tweet = data['text'].encode('utf-8')
             print self.tweet
-        # Want to disconnect after the first result?
+        # disconnecting after the first result
         self.disconnect()
 
     def on_error(self, status_code, data):
@@ -23,20 +25,19 @@ stream = MyStreamer(APP_KEY, APP_SECRET,
 stream.statuses.filter(track='@bot_divs')
 
 # stream.user()
-# Read the authenticated users home timeline
-# (what they see on Twitter) in real-time
 # stream.site(follow='bot_divs')
 
 from instamojo-py-master.instamojo import Instamojo
-# Initialize the API wrapper by giving it your api_key and auth_token
+# Initializing the API wrapper by giving it the api_key and auth_token
 API_KEY = INSTA_API_KEY
 AUTH_TOKEN = INSTA_AUTH_TOKEN
 api = Instamojo(api_key=API_KEY,
                 auth_token=AUTH_TOKEN)
 
-# Create a Link with one function call.
-removelist = ['an', 'which', 'with', 'is', 'and']
+# Creating a Link with one function call.
+# removelist = ['an', 'which', 'with', 'is', 'and']
 tweet = stream.tweet
+# String operations as required to extract the title and description
 tweet = tweet.replace("@bot_divs","")
 if tweet[-1:] == '.':
     tweet = tweet[:-1]
@@ -57,5 +58,5 @@ response = api.link_create(title=titl,
                        base_price=bp,
                        currency=cur)
 
-# Get the URL for the freshly created link!
+# the URL for the freshly created link!
 print response['link']['url']
