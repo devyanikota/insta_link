@@ -11,12 +11,12 @@ class MyStreamer(TwythonStreamer):
                     TWITTER_OAUTH_TOKEN, TWITTER_OAUTH_SECRET):
         super(MyStreamer,self).__init__(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, \
                     TWITTER_OAUTH_TOKEN, TWITTER_OAUTH_SECRET)
-        instaobj = MyInstalink()
+        self.instaobj = MyInstalink()
 
     def on_success(self, data):
         if 'text' in data:
             tweet = data['text'].encode('utf-8')
-            instalobj.generate_link(tweet)
+            self.instalobj.generate_link(tweet)
         # disconnecting after the first result
         #self.disconnect()
 
@@ -40,9 +40,9 @@ class MyInstalink():
         if tweet[-1:] == '.':
             tweet = tweet[:-1]
 
-        words = self.tweet.split()
+        words = tweet.split()
 
-        splitlist = self.tweet.split("which is")
+        splitlist = tweet.split("which is")
         title = splitlist[0]
         desc = splitlist[1].split("costs")[0]
 
