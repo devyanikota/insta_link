@@ -54,14 +54,14 @@ class MyInstalink():
         bp = words[p-1]
         # Creating a Link with one function call.
 
-        response = self.api.link_create(title=titl,
+        response = self.api.link_create(title=title,
                            description=desc,
                            base_price=bp,
                            currency=cur)
 
         # the URL for the freshly created link!
         with open('link.txt','a') as f:
-         f.write(response['link']['url']+"/n")
+         f.write(response['link']['url']+"\n")
 
 if __name__ == '__main__':
     # Requires Authentication as of Twitter API v1.1
