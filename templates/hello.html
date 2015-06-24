@@ -1,0 +1,23 @@
+{% extends "master.html" %}
+
+{% block title %}Home{% endblock %}
+
+{% block body %}
+Hello you!
+{% endblock %}
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset="utf-8" />
+    <title>Hello</title>
+    <link type="text/css" rel="stylesheet"
+          href="{{ url_for('static',
+               filename='hello.css')}}" />
+    <a href="{{ url_for('index') }}"><button>Home</button></a>
+</head>
+<body>
+
+      Hello {{name}}
+
+</body>
+</html>

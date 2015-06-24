@@ -1,62 +1,68 @@
 # Streaming a tweet using the twitter handle.
 
 from twython import TwythonStreamer
-from dkey import INSTA_API_KEY, INSTA_AUTH_TOKEN, TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, TWITTER_OAUTH_TOKEN, TWITTER_OAUTH_SECRET
+from instamojopkg.instamojo import Instamojo
+from dkey import INSTA_API_KEY, INSTA_AUTH_TOKEN, TWITTER_CONSUMER_KEY, \
+TWITTER_CONSUMER_SECRET, TWITTER_OAUTH_TOKEN, TWITTER_OAUTH_SECRET
 
 class MyStreamer(TwythonStreamer):
+    
+    def __init__():
+        instaobj = MyInstalink()
+
     def on_success(self, data):
         if 'text' in data:
-            self.tweet = data['text'].encode('utf-8')
-            print self.tweet
+            tweet = data['text'].encode('utf-8')
+            instalobj.generate_link(tweet)
         # disconnecting after the first result
-        self.disconnect()
+        #self.disconnect()
 
     def on_error(self, status_code, data):
         print status_code, data
 
-# Requires Authentication as of Twitter API v1.1
-APP_KEY = TWITTER_CONSUMER_KEY
-APP_SECRET = TWITTER_CONSUMER_SECRET
-OAUTH_TOKEN = TWITTER_OAUTH_TOKEN
-OAUTH_TOKEN_SECRET = TWITTER_OAUTH_SECRET
 
-stream = MyStreamer(APP_KEY, APP_SECRET,
-                    OAUTH_TOKEN, OAUTH_TOKEN_SECRET)
-stream.statuses.filter(track='@bot_divs')
+class MyInstalink():
 
-# stream.user()
-# stream.site(follow='bot_divs')
+    def __init__():
+        # Initializing the API wrapper by giving it the api_key and auth_token
+        api = Instamojo(api_key=INSTA_API_KEY,auth_token=INSTA_AUTH_TOKEN)
 
-from instamojo-py-master.instamojo import Instamojo
-# Initializing the API wrapper by giving it the api_key and auth_token
-API_KEY = INSTA_API_KEY
-AUTH_TOKEN = INSTA_AUTH_TOKEN
-api = Instamojo(api_key=API_KEY,
-                auth_token=AUTH_TOKEN)
+            
+    def generate_link(self,tweet):
+        
+        # String operations as required to extract the title and description
 
-# Creating a Link with one function call.
-# removelist = ['an', 'which', 'with', 'is', 'and']
-tweet = stream.tweet
-# String operations as required to extract the title and description
-tweet = tweet.replace("@bot_divs","")
-if tweet[-1:] == '.':
-    tweet = tweet[:-1]
-words = tweet.split()
-# if i in removelist
-titl = tweet.split("which is")[0]
-desc = tweet.split("which is")[1].split("costs")[0]
-# desc = ' '.join(i for i in words if i not in removelist)
-# for word in words:
-if 'INR' in words:
-    cur = 'INR'
-elif 'USD' in words:
-    cur = 'USD'
-p = words.index(cur)
-bp = words[p-1]
-response = api.link_create(title=titl,
-                       description=desc,
-                       base_price=bp,
-                       currency=cur)
+        tweet = tweet.replace("@bot_divs","")
 
-# the URL for the freshly created link!
-print response['link']['url']
+        if tweet[-1:] == '.':
+            tweet = tweet[:-1]
+        
+        words = self.tweet.split()
+
+        splitlist = self.tweet.split("which is")
+        title = splitlist[0]
+        desc = splitlist[1].split("costs")[0]
+
+        if 'INR' in words:
+            cur = 'INR'
+        elif 'USD' in words:
+            cur = 'USD'
+        p = words.index(cur)
+        bp = words[p-1]
+        # Creating a Link with one function call.
+        
+        response = self.api.link_create(title=titl,
+                           description=desc,
+                           base_price=bp,
+                           currency=cur)
+
+        # the URL for the freshly created link!
+        with open('link.txt','a') as f:
+         f.write(response['link']['url']+"/n")
+
+if __name__ == '__main__':
+    # Requires Authentication as of Twitter API v1.1
+    stream = MyStreamer(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET,
+                    TWITTER_OAUTH_TOKEN, TWITTER_OAUTH_SECRET)
+
+    stream.statuses.filter(track='@bot_divs')
