@@ -54,15 +54,15 @@ class MyInstalink():
         bp = words[p-1]
         # Creating a Link with one function call.
 
-        print 'testing to recover statements in heroku logs'
         response = self.api.link_create(title=title,
                            description=desc,
                            base_price=bp,
                            currency=cur)
 
         # the URL for the freshly created link!
+        # print statement to check for errors in heroku logs
         with open('link.txt','a') as f:
-         print 'writing the link to file'
+         print(response['link']['url']+"\n")
          f.write(response['link']['url']+"\n")
 
 if __name__ == '__main__':
