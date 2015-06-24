@@ -16,7 +16,7 @@ class MyStreamer(TwythonStreamer):
     def on_success(self, data):
         if 'text' in data:
             tweet = data['text'].encode('utf-8')
-            self.instalobj.generate_link(tweet)
+            self.instaobj.generate_link(tweet)
         # disconnecting after the first result
         #self.disconnect()
 
