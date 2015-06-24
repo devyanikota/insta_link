@@ -28,7 +28,7 @@ class MyInstalink():
 
     def __init__(self):
         # Initializing the API wrapper by giving it the api_key and auth_token
-        api = Instamojo(api_key=INSTA_API_KEY,auth_token=INSTA_AUTH_TOKEN)
+        self.api = Instamojo(api_key=INSTA_API_KEY,auth_token=INSTA_AUTH_TOKEN)
 
 
     def generate_link(self,tweet):
