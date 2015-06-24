@@ -6,8 +6,11 @@ from dkey import INSTA_API_KEY, INSTA_AUTH_TOKEN, TWITTER_CONSUMER_KEY, \
 TWITTER_CONSUMER_SECRET, TWITTER_OAUTH_TOKEN, TWITTER_OAUTH_SECRET
 
 class MyStreamer(TwythonStreamer):
-    
-    def __init__():
+
+    def __init__(self,TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, \
+                    TWITTER_OAUTH_TOKEN, TWITTER_OAUTH_SECRET):
+        super(MyStreamer,self).__init__(TWITTER_CONSUMER_KEY, TWITTER_CONSUMER_SECRET, \
+                    TWITTER_OAUTH_TOKEN, TWITTER_OAUTH_SECRET)
         instaobj = MyInstalink()
 
     def on_success(self, data):
@@ -23,20 +26,20 @@ class MyStreamer(TwythonStreamer):
 
 class MyInstalink():
 
-    def __init__():
+    def __init__(self):
         # Initializing the API wrapper by giving it the api_key and auth_token
         api = Instamojo(api_key=INSTA_API_KEY,auth_token=INSTA_AUTH_TOKEN)
 
-            
+
     def generate_link(self,tweet):
-        
+
         # String operations as required to extract the title and description
 
         tweet = tweet.replace("@bot_divs","")
 
         if tweet[-1:] == '.':
             tweet = tweet[:-1]
-        
+
         words = self.tweet.split()
 
         splitlist = self.tweet.split("which is")
@@ -50,7 +53,7 @@ class MyInstalink():
         p = words.index(cur)
         bp = words[p-1]
         # Creating a Link with one function call.
-        
+
         response = self.api.link_create(title=titl,
                            description=desc,
                            base_price=bp,
